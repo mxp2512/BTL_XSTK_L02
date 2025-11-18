@@ -55,41 +55,40 @@ na_summary = pd.DataFrame({
 })
 
 # Làm đẹp hiển thị (sắp xếp giảm dần theo tỷ lệ thiếu)
-#na_summary = na_summary.sort_values(by="NA_Percentage", ascending=False)
+na_summary = na_summary.sort_values(by="NA_Percentage", ascending=False)
 
 # Hiển thị bảng thống kê
-#mid = len(na_summary) // 2
-#table_left = na_summary.iloc[:mid]
-#table_right = na_summary.iloc[mid:].reset_index(drop=True)
+mid = len(na_summary) // 2
+table_left = na_summary.iloc[:mid]
+table_right = na_summary.iloc[mid:].reset_index(drop=True)
 
 # Gộp hai bảng theo chiều ngang
 #combined = pd.concat([table_left.reset_index(drop=True), table_right], axis=1)
 
 # In ra gọn gàng
-#print(combined.to_string(index=False, formatters={
-#    "NA_Percentage": "{:.2f}%".format
-#}))
+print(combined.to_string(index=False, formatters={
+    "NA_Percentage": "{:.2f}%".format
+}))
 
 
 # --- Vẽ biểu đồ ---
-#plt.figure(figsize=(10, 6))
-#sns.barplot(data=na_summary, x="Column", y="NA_Percentage", color="steelblue")
+plt.figure(figsize=(10, 6))
+sns.barplot(data=na_summary, x="Column", y="NA_Percentage", color="steelblue")
 
 # Thêm nhãn phần trăm trên cột
-#for i, row in enumerate(na_summary.itertuples()):
-#    plt.text(i, row.NA_Percentage + 0.5, f"{row.NA_Percentage:.1f}%", 
-#             ha='center', va='bottom', fontsize=8, color='black')
+for i, row in enumerate(na_summary.itertuples()):
+    plt.text(i, row.NA_Percentage + 0.5, f"{row.NA_Percentage:.1f}%", 
+             ha='center', va='bottom', fontsize=8, color='black')
 
 # Tiêu đề và nhãn
-#plt.title("Tỷ lệ dữ liệu khuyết ở các biến", fontsize=13)
-#plt.xlabel("Biến", fontsize=11)
-#plt.ylabel("Tỷ lệ dữ liệu khuyết (%)", fontsize=11)
+plt.title("Tỷ lệ dữ liệu khuyết ở các biến", fontsize=13)
+plt.xlabel("Biến", fontsize=11)
+plt.ylabel("Tỷ lệ dữ liệu khuyết (%)", fontsize=11)
 
 # Xoay nhãn trục X cho dễ đọc
-#plt.xticks(rotation=90, fontsize=9)
-
-#plt.tight_layout()
-#plt.show()
+plt.xticks(rotation=90, fontsize=9)
+plt.tight_layout()
+plt.show()
 
 # Lọc ra các cột có tỷ lệ NA dưới 10%
 selected_columns = na_summary.loc[na_summary["NA_Percentage"] < 10, "Column"]
@@ -101,10 +100,9 @@ new_GPU_data = df[selected_columns].copy()
 new_GPU_data = new_GPU_data.dropna()
 
 # (Tùy chọn) Kiểm tra kích thước kết quả
-#print("Kích thước ban đầu:", df.shape)
-#print("Kích thước sau khi lọc:", new_GPU_data.shape)
+print("Kích thước ban đầu:", df.shape)
+print("Kích thước sau khi lọc:", new_GPU_data.shape)
 
-# Giả sử bạn đã có new_GPU_data
 columns_to_clean = ["L2_Cache", "Memory_Bandwidth", "Memory_Bus", "Memory_Speed"]
 
 # Hàm xóa đơn vị (chỉ giữ lại số và dấu chấm thập phân)
@@ -132,7 +130,7 @@ selected_columns = [
 main_data = new_GPU_data[selected_columns].copy()
 
 # Xem trước 5 dòng đầu
-#print(main_data.head())
+print(main_data.head())
 
 
 # ==========================================================
@@ -155,11 +153,11 @@ summary_stats = pd.DataFrame({
 })
 
 # Hiển thị bảng
-#print(summary_stats)
+print(summary_stats)
 
 # Thống kê số lượng cho các biến phân loại
 categorical_cols = ["Manufacturer", "Shader", "Memory_Type", "Dedicated"]
-#for col in categorical_cols:
+for col in categorical_cols:
     #print(f"=== {col} ===")
     #print(main_data[col].value_counts())
     #print("\n")
@@ -169,7 +167,7 @@ categorical_cols = ["Manufacturer", "Shader", "Memory_Type", "Dedicated"]
 # ==========================================================
 
 # Histogram cho biến Memory_Bandwidth
-#plt.figure(figsize=(8, 5))
+plt.figure(figsize=(8, 5))
 
 # Vẽ histogram
 sns.histplot(main_data['Memory_Bandwidth'], 
@@ -180,9 +178,8 @@ sns.histplot(main_data['Memory_Bandwidth'],
 plt.title("Phân Phối của Memory_Bandwidth", fontsize=14)
 plt.xlabel("Memory_Bandwidth (GB/s)", fontsize=12)
 plt.ylabel("Số Lượng", fontsize=12)
-
-#plt.tight_layout()
-#plt.show()
+plt.tight_layout()
+plt.show()
 
 
 # Vẽ boxplot cho Memory_Bandwidth theo các biến phân loại
@@ -205,8 +202,8 @@ for i, feature in enumerate(categorical_features, 1):
     ha = 'right' if feature == 'Manufacturer' else 'center'
     plt.xticks(rotation=rotation, ha=ha)
 
-#plt.tight_layout()
-#plt.show()
+plt.tight_layout()
+plt.show()
 
 
 # Scatterplot của Memory_Bandwidth theo các biến kỹ thuật
@@ -218,7 +215,7 @@ units = {
 }
 
 # Tạo figure với 3 biểu đồ trên cùng hàng
-#plt.figure(figsize=(15, 4))
+plt.figure(figsize=(15, 4))
 
 for i, feature in enumerate(features, 1):
     plt.subplot(1, 3, i)
@@ -229,8 +226,8 @@ for i, feature in enumerate(features, 1):
     plt.ylabel("Memory_Bandwidth (GB/s)", fontsize=11)
     plt.grid(True)
 
-#plt.tight_layout()
-#plt.show()
+plt.tight_layout()
+plt.show()
 
 # Chọn các biến số từ main_data
 numeric_features = ["Memory_Bandwidth", "Memory_Speed", "L2_Cache", "Memory_Bus"]
@@ -239,7 +236,7 @@ numeric_features = ["Memory_Bandwidth", "Memory_Speed", "L2_Cache", "Memory_Bus"
 corr_matrix = main_data[numeric_features].corr()
 
 # Vẽ heatmap tương quan
-#plt.figure(figsize=(8, 6))
+plt.figure(figsize=(8, 6))
 sns.heatmap(corr_matrix, 
             annot=True, 
             cmap="coolwarm", 
@@ -248,8 +245,8 @@ sns.heatmap(corr_matrix,
             cbar_kws={"shrink": 0.8})
 
 plt.title("Ma trận tương quan giữa các biến kỹ thuật", fontsize=14)
-#plt.tight_layout()
-#plt.show()
+plt.tight_layout()
+plt.show()
 
 #=========================================================
 # 5. KIỂM ĐỊNH TRUNG BÌNH HAI MẪU
@@ -309,47 +306,47 @@ plt.show()
 # Shapiro Test
 # Kiểm định Shapiro cho nhóm Non-Dedicated
 stat_no, p_no = shapiro(data_no)
-#print("Non-Dedicated:")
-#print(f"  Shapiro-Wilk statistic = {stat_no:.4f}, p-value = {p_no:.4f}")
+print("Non-Dedicated:")
+print(f"  Shapiro-Wilk statistic = {stat_no:.4f}, p-value = {p_no:.4f}")
 
 # Kiểm định Shapiro cho nhóm Dedicated
 stat_yes, p_yes = shapiro(data_yes)
-#print("Dedicated:")
-#print(f"  Shapiro-Wilk statistic = {stat_yes:.4f}, p-value = {p_yes:.4f}")
+print("Dedicated:")
+print(f"  Shapiro-Wilk statistic = {stat_yes:.4f}, p-value = {p_yes:.4f}")
 
 # Diễn giải kết quả
-#alpha = 0.05
-#for group, p in zip(["Non-Dedicated", "Dedicated"], [p_no, p_yes]):
-#    if p > alpha:
-#        print(f"{group}: Không bác bỏ giả thuyết chuẩn (dữ liệu có phân phối chuẩn)")
-#    else:
-#        print(f"{group}: Bác bỏ giả thuyết chuẩn (dữ liệu không có phân phối chuẩn)")
+alpha = 0.05
+for group, p in zip(["Non-Dedicated", "Dedicated"], [p_no, p_yes]):
+    if p > alpha:
+        print(f"{group}: Không bác bỏ giả thuyết chuẩn (dữ liệu có phân phối chuẩn)")
+    else:
+        print(f"{group}: Bác bỏ giả thuyết chuẩn (dữ liệu không có phân phối chuẩn)")
 
 # Tính giá trị kiểm định thống kê
 Zo = (xtb1 - xtb2) / np.sqrt((s1**2 / n1) + (s2**2 / n2))
-#print(f"Giá trị kiểm định Z = {Zo:.4f}")
+print(f"Giá trị kiểm định Z = {Zo:.4f}")
 
 # Miền bác bỏ
 alpha = 0.05
 Z_critical = norm.ppf(1 - alpha)
-#print(f"Z_critical (upper tail, alpha=0.05) = {Z_critical:.4f}")
+print(f"Z_critical (upper tail, alpha=0.05) = {Z_critical:.4f}")
 
 #================================================================
 # 6. ANOVA MỘT NHÂN TỐ
 #================================================================
 # Kiểm tra phân phối chuẩn (Shapiro-Wilk) ---
 groups = main_data["Manufacturer"].unique()
-#for g in groups:
-    #data_g = main_data.loc[main_data["Manufacturer"] == g, "Memory_Bandwidth"]
-    #stat, p = shapiro(data_g)
-    #print(f"{g}: W = {stat:.4f}, p-value = {p:.4f}")
+for g in groups:
+    data_g = main_data.loc[main_data["Manufacturer"] == g, "Memory_Bandwidth"]
+    stat, p = shapiro(data_g)
+    print(f"{g}: W = {stat:.4f}, p-value = {p:.4f}")
 
 # Kết luận: Nếu p > 0.05 → không bác bỏ H0 → dữ liệu ~ chuẩn
 
 # Kiểm tra đồng nhất phương sai (Levene Test) ---
 group_data = [main_data.loc[main_data["Manufacturer"] == g, "Memory_Bandwidth"] for g in groups]
 stat, p = levene(*group_data)
-#print(f"\nLevene test: W = {stat:.4f}, p-value = {p:.4f}")
+print(f"\nLevene test: W = {stat:.4f}, p-value = {p:.4f}")
 
 # Kết luận: Nếu p > 0.05 → không bác bỏ H0 → phương sai bằng nhau
 
@@ -400,7 +397,7 @@ stats_df = pd.DataFrame({
 })
 
 # Hiển thị bảng thống kê
-#print(stats_df)
+print(stats_df)
 
 # Số nhóm = 4 (AMD, ATI, Intel, Nvidia)
 k = 4
@@ -418,8 +415,8 @@ df2 = (n1 + n2 + n3 + n4) - k
 # Giá trị tới hạn F
 F_critical = f.ppf(1 - alpha, df1, df2)
 
-#print(f"F-critical (alpha = 0.05): {F_critical:.4f}")
-#print(f"df1 = {df1}, df2 = {df2}")
+print(f"F-critical (alpha = 0.05): {F_critical:.4f}")
+print(f"df1 = {df1}, df2 = {df2}")
 
 # Gộp dữ liệu thành một DataFrame ---
 df_anova = pd.DataFrame({
@@ -441,62 +438,61 @@ df_anova = pd.DataFrame({
 model = ols("Gia_tri ~ C(Frequency)", data=df_anova).fit()
 anova_table = sm.stats.anova_lm(model, typ=2)
 
-#print("=== Kết quả ANOVA ===")
-#print(anova_table)
+print("=== Kết quả ANOVA ===")
+print(anova_table)
 
 # Phân tích hậu kiểm Tukey HSD ---
 tukey = pairwise_tukeyhsd(endog=df_anova["Gia_tri"],
                           groups=df_anova["Frequency"],
                           alpha=0.05)
 
-#print("\n=== Kết quả kiểm định Tukey HSD ===")
-#print(tukey)
+print("\n=== Kết quả kiểm định Tukey HSD ===")
+print(tukey)
 
 
 # ==========================================================
 # 6. HỒI QUY TUYẾN TÍNH ĐA BIẾN
 # ==========================================================
 # Chia dữ liệu 8:2
-#train_data, test_data = train_test_split(main_data, test_size=0.2, random_state=123)
+train_data, test_data = train_test_split(main_data, test_size=0.2, random_state=123)
 
 # --- Loại bỏ các biến không dùng ---
 cols_to_drop = ['Manufacturer', 'Dedicated', 'Shader']
-#train_data = train_data.drop(columns=cols_to_drop, errors='ignore')
-#test_data = test_data.drop(columns=cols_to_drop, errors='ignore')
+train_data = train_data.drop(columns=cols_to_drop, errors='ignore')
+test_data = test_data.drop(columns=cols_to_drop, errors='ignore')
 
 # Tạo biến giả cho các biến phân loại
-#train_data = pd.get_dummies(train_data, columns=['Memory_Type', 'Shader'], drop_first=True)
-#test_data = pd.get_dummies(test_data, columns=['Memory_Type', 'Shader'], drop_first=True)
-#train_data = pd.get_dummies(train_data, columns=['Memory_Type'], drop_first=True)
-#test_data = pd.get_dummies(test_data, columns=['Memory_Type'], drop_first=True)
+train_data = pd.get_dummies(train_data, columns=['Memory_Type', 'Shader'], drop_first=True)
+test_data = pd.get_dummies(test_data, columns=['Memory_Type', 'Shader'], drop_first=True)
+train_data = pd.get_dummies(train_data, columns=['Memory_Type'], drop_first=True)
+test_data = pd.get_dummies(test_data, columns=['Memory_Type'], drop_first=True)
 
 # Đồng bộ cột giữa train và test
-#test_data = test_data.reindex(columns=train_data.columns, fill_value=0)
+test_data = test_data.reindex(columns=train_data.columns, fill_value=0)
 
 # Biến độc lập và phụ thuộc
-#X_train = train_data.drop(columns=['Memory_Bandwidth'])
-#y_train = train_data['Memory_Bandwidth']
+X_train = train_data.drop(columns=['Memory_Bandwidth'])
+y_train = train_data['Memory_Bandwidth']
 
 # Thêm hằng số
-#X_train = sm.add_constant(X_train)
+X_train = sm.add_constant(X_train)
 
 # Ép tất cả dữ liệu sang kiểu float (tránh lỗi dtype object)
-#X_train = X_train.astype(float)
-#y_train = y_train.astype(float)
+X_train = X_train.astype(float)
+y_train = y_train.astype(float)
 
 # Xây dựng mô hình hồi quy tuyến tính
-#model = sm.OLS(y_train, X_train).fit()
+model = sm.OLS(y_train, X_train).fit()
 
 # In kết quả
-#print(model.summary())
-#print(f"R-squared: {model.rsquared:.4f}")
-#print(f"Adjusted R-squared: {model.rsquared_adj:.4f}")
+print(model.summary())
+print(f"R-squared: {model.rsquared:.4f}")
+print(f"Adjusted R-squared: {model.rsquared_adj:.4f}")
 
 # Vẽ các đồ thị phần dư
 # Lấy các giá trị fitted và residual
 fitted_vals = model.fittedvalues
 residuals = model.resid
-
 plt.figure(figsize=(12, 10))
 
 # 1. Residuals vs Fitted
@@ -555,14 +551,14 @@ plt.ylabel('Studentized Residuals')
 plt.title('4. Residuals vs Leverage')
 plt.legend()
 plt.tight_layout()
-#plt.show()
+plt.show()
 
 # (Tùy chọn) xem CooksD các điểm 
 influence_df = pd.DataFrame({
     "CooksD": cooks_d
 }).sort_values("CooksD", ascending=False)
 
-#print(influence_df.head(4))
+print(influence_df.head(4))
 
 
 # VIF
@@ -572,7 +568,7 @@ vif_data["Variable"] = X.columns
 vif_data["VIF"] = [variance_inflation_factor(X.values, i)
                    for i in range(X.shape[1])]
 
-#print(vif_data)
+print(vif_data)
 
 # Chuẩn hóa kiểu dữ liệu ---
 bool_cols = [
@@ -582,34 +578,34 @@ bool_cols = [
     'Memory_Type_HBM-1', 'Memory_Type_HBM-2', 'Memory_Type_eDRAM'
 ]
 
-#for col in bool_cols:
-#    train_data[col] = train_data[col].astype(int)
-#    test_data[col] = test_data[col].astype(int)
+for col in bool_cols:
+    train_data[col] = train_data[col].astype(int)
+    test_data[col] = test_data[col].astype(int)
 
 # Chuẩn bị dữ liệu ---
-#X_train = train_data.drop(columns=['Memory_Bandwidth'])
-#y_train = train_data['Memory_Bandwidth']
-#X_test = test_data.drop(columns=['Memory_Bandwidth'], errors='ignore')
+X_train = train_data.drop(columns=['Memory_Bandwidth'])
+y_train = train_data['Memory_Bandwidth']
+X_test = test_data.drop(columns=['Memory_Bandwidth'], errors='ignore')
 
 # Đảm bảo cột giống hệt
-#X_test = X_test[X_train.columns]
-#X_train = sm.add_constant(X_train)
-#X_test = sm.add_constant(X_test)
+X_test = X_test[X_train.columns]
+X_train = sm.add_constant(X_train)
+X_test = sm.add_constant(X_test)
 
 # Dự đoán ---
-#predictions = model.predict(X_test)
+predictions = model.predict(X_test)
 
 # Thêm Predicted_Memory_Bandwidth vào test_data
-#test_data['Predicted_Memory_Bandwidth'] = predictions
+test_data['Predicted_Memory_Bandwidth'] = predictions
 
-#print(test_data.head())
+print(test_data.head())
 
 # Tính RMSE và R² ---
-#rmse = np.sqrt(np.mean((test_data['Memory_Bandwidth'] - predictions) ** 2))
-#r2 = 1 - np.sum((test_data['Memory_Bandwidth'] - predictions) ** 2) / np.sum((test_data['Memory_Bandwidth'] - np.mean(test_data['Memory_Bandwidth'])) ** 2)
+rmse = np.sqrt(np.mean((test_data['Memory_Bandwidth'] - predictions) ** 2))
+r2 = 1 - np.sum((test_data['Memory_Bandwidth'] - predictions) ** 2) / np.sum((test_data['Memory_Bandwidth'] - np.mean(test_data['Memory_Bandwidth'])) ** 2)
 
-#print(f"RMSE: {rmse}")
-#print(f"R-squared: {r2}")
+print(f"RMSE: {rmse}")
+print(f"R-squared: {r2}")
 
 #print(train_data.dtypes)
 #print(test_data.dtypes)
@@ -618,22 +614,22 @@ bool_cols = [
 # 7. KIỂM ĐỊNH KRUSKAL - WALLIS
 # ==========================================================
 # Tách dữ liệu theo từng hãng
-#groups = main_data["Manufacturer"].unique()
-#group_data = [main_data.loc[main_data["Manufacturer"] == g, "Memory_Bandwidth"] for g in groups]
+groups = main_data["Manufacturer"].unique()
+group_data = [main_data.loc[main_data["Manufacturer"] == g, "Memory_Bandwidth"] for g in groups]
 
 # Thực hiện kiểm định Kruskal–Wallis
 stat, p = kruskal(*group_data)
-#print(f"Kruskal–Wallis H = {stat:.4f}, p-value = {p:.4f}")
+print(f"Kruskal–Wallis H = {stat:.4f}, p-value = {p:.4f}")
 
 # Kết luận
-#if p < 0.05:
-    #print("→ Có sự khác biệt có ý nghĩa thống kê giữa ít nhất hai hãng sản xuất (p < 0.05).")
-#else:
-    #print("→ Không có sự khác biệt có ý nghĩa giữa các hãng (p ≥ 0.05).")
+if p < 0.05:
+    print("→ Có sự khác biệt có ý nghĩa thống kê giữa ít nhất hai hãng sản xuất (p < 0.05).")
+else:
+    print("→ Không có sự khác biệt có ý nghĩa giữa các hãng (p ≥ 0.05).")
 
 # Thực hiện Dunn post-hoc test
 posthoc = sp.posthoc_dunn(main_data, val_col='Memory_Bandwidth', group_col='Manufacturer', p_adjust='bonferroni')
-#print(posthoc)
+print(posthoc)
 
 # ==========================================================
 # 7. MÔ HÌNH HỒI QUY RIDGE/LASSO
