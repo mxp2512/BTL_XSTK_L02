@@ -23,7 +23,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.linear_model import Ridge, Lasso, ElasticNet, LassoCV
 from sklearn.model_selection import GridSearchCV, cross_val_score
 from sklearn.metrics import r2_score, mean_squared_error
-
+from statsmodels.stats.stattools import durbin_watson
 
 # ==========================================================
 #  BÀI TẬP LỚN XÁC SUẤT - THỐNG KÊ
@@ -560,6 +560,9 @@ influence_df = pd.DataFrame({
 
 print(influence_df.head(4))
 
+# Durbin - Watson test 
+dw_value = durbin_watson(model.resid)
+print("Durbin–Watson:", dw_value)
 
 # VIF
 X = pd.DataFrame(model.model.exog, columns=model.model.exog_names)
